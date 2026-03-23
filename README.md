@@ -1,9 +1,12 @@
 # Second Brain Framework
 
-A ready-to-use framework for building your personal knowledge management system with [Obsidian](https://obsidian.md) and Git. Free, open-source, and no vendor lock-in — just markdown files synced with version control.
+An [OpenClaw](https://github.com/openclaw/openclaw)-native framework for building your personal knowledge management system with [Obsidian](https://obsidian.md) and Git. Free, open-source, and no vendor lock-in — just markdown files synced with version control.
+
+Includes an OpenClaw skill (`SKILL.md`) so your AI assistant can help manage your vault, run syncs, organize notes, and guide you through the PARA workflow.
 
 ## Features
 
+- **OpenClaw skill** — AI-assisted vault management, sync, and organization
 - **PARA folder structure** — Organize notes into Projects, Areas, Resources, and Archive
 - **Automated Git sync** — Auto-commit and push/pull your vault on a schedule
 - **Cross-platform** — Works on macOS, Linux, and Windows (WSL)
@@ -11,22 +14,39 @@ A ready-to-use framework for building your personal knowledge management system 
 - **Conflict resolution** — Automatic rebase-based conflict handling
 - **Backup system** — Timestamped compressed backups with rotation
 - **Starter templates** — Daily notes, projects, meetings, book notes
-- **Zero dependencies** — Just Bash and Git
+- **obsidian-cli integration** — Auto-detects vaults, safe note moves with link updates
+- **Zero dependencies** — Just Bash and Git (obsidian-cli and OpenClaw optional)
 
 ## Quick Start
 
+### Option 1: OpenClaw workspace skill (recommended)
+
 ```bash
-# Clone this framework
+# Clone into your OpenClaw workspace
+cd ~/your-workspace
+git clone https://github.com/dgroch/obsidian-second-brain.git
+
+# OpenClaw auto-discovers the SKILL.md — just ask:
+# "Set up my second brain" or "Sync my vault"
+```
+
+### Option 2: Standalone install
+
+```bash
 git clone https://github.com/dgroch/obsidian-second-brain.git
 cd obsidian-second-brain
-
-# Run the interactive installer
 chmod +x install.sh
 ./install.sh
 ```
 
+### Option 3: Install obsidian-cli (optional, enhances vault management)
+
+```bash
+brew install yakitrak/yakitrak/obsidian-cli
+```
+
 The installer will walk you through:
-1. Choosing your vault location
+1. Choosing your vault location (auto-detected if `obsidian-cli` is installed)
 2. Connecting a Git remote
 3. Setting up the folder structure
 4. Configuring auto-sync (cron, systemd, or launchd)
@@ -35,6 +55,7 @@ The installer will walk you through:
 
 ```
 obsidian-second-brain/
+├── SKILL.md                # OpenClaw skill definition (auto-discovered)
 ├── install.sh              # Interactive setup wizard
 ├── .env.example            # Configuration template
 ├── scripts/
@@ -130,6 +151,28 @@ Capture → Inbox → Clarify → Organize (PARA) → Review → Archive
 - [ ] Review active Projects — update status
 - [ ] Check Areas — anything neglected?
 - [ ] Archive completed projects
+
+## OpenClaw Integration
+
+This project is an [OpenClaw](https://github.com/openclaw/openclaw) workspace skill. When this directory is in your workspace, OpenClaw automatically loads the `SKILL.md` and can:
+
+- **Scaffold a new vault** with PARA folders and templates
+- **Run Git sync** on demand or configure scheduled sync
+- **Organize notes** using the PARA method (move notes between folders)
+- **Process your inbox** — help you clarify and categorize captured notes
+- **Create backups** and show vault status
+- **Move/rename notes** safely via `obsidian-cli` (updates wikilinks)
+
+The skill requires `git` and optionally `obsidian-cli` (installed via `brew install yakitrak/yakitrak/obsidian-cli`).
+
+### Example OpenClaw prompts
+
+- "Set up a new second brain in ~/Documents/Brain"
+- "Sync my vault"
+- "Help me process my inbox"
+- "Back up my vault"
+- "How many notes do I have?"
+- "Move my 'Q1 Planning' project to the archive"
 
 ## Recommended Obsidian Plugins
 

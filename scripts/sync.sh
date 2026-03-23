@@ -27,6 +27,13 @@ else
     exit 1
 fi
 
+# Auto-detect vault path via obsidian-cli if not configured
+if [[ -z "${VAULT_PATH:-}" ]]; then
+    if command -v obsidian-cli &>/dev/null; then
+        VAULT_PATH="$(obsidian-cli print-default --path-only 2>/dev/null || true)"
+    fi
+fi
+
 # Defaults
 VAULT_PATH="${VAULT_PATH:-$HOME/SecondBrain}"
 GIT_BRANCH="${GIT_BRANCH:-main}"

@@ -85,6 +85,19 @@ check_prerequisites() {
         missing=1
     fi
 
+    if command -v obsidian-cli &>/dev/null; then
+        print_step "obsidian-cli $(obsidian-cli --version 2>/dev/null || echo 'installed')"
+    else
+        print_warn "obsidian-cli not found (optional, install: brew install yakitrak/yakitrak/obsidian-cli)"
+    fi
+
+    if command -v openclaw &>/dev/null; then
+        print_step "OpenClaw detected"
+        OPENCLAW_AVAILABLE=true
+    else
+        OPENCLAW_AVAILABLE=false
+    fi
+
     if [[ $missing -eq 1 ]]; then
         echo ""
         print_error "Please install missing prerequisites and try again."
@@ -99,7 +112,18 @@ gather_config() {
     echo -e "${BOLD}Configuration${NC}"
     echo "─────────────────────────────────────"
 
-    VAULT_PATH=$(prompt_value "Vault path" "$HOME/SecondBrain")
+    # Try to auto-detect vault path via obsidian-cli
+    local default_vault="$HOME/SecondBrain"
+    if command -v obsidian-cli &>/dev/null; then
+        local detected
+        detected="$(obsidian-cli print-default --path-only 2>/dev/null || true)"
+        if [[ -n "$detected" && -d "$detected" ]]; then
+            default_vault="$detected"
+            print_step "Detected existing vault: $detected"
+        fi
+    fi
+
+    VAULT_PATH=$(prompt_value "Vault path" "$default_vault")
     GIT_REMOTE=$(prompt_value "Git remote URL (HTTPS or SSH)" "")
     GIT_BRANCH=$(prompt_value "Git branch" "main")
     SYNC_INTERVAL=$(prompt_value "Auto-sync interval (minutes, 0 to disable)" "10")
@@ -365,6 +389,20 @@ print_summary() {
     echo "  $SCRIPT_DIR/scripts/backup.sh         # Create backup"
     echo "  $SCRIPT_DIR/scripts/status.sh         # View status"
     echo ""
+
+    if [[ "$OPENCLAW_AVAILABLE" == "true" ]]; then
+        echo -e "${BOLD}OpenClaw:${NC}"
+        echo "  This project includes an OpenClaw skill (SKILL.md)."
+        echo "  OpenClaw can manage your vault, run syncs, and organize notes."
+        echo "  The skill activates when you ask about your second brain."
+        echo ""
+    else
+        echo -e "${BOLD}OpenClaw (optional):${NC}"
+        echo "  Install OpenClaw for AI-assisted vault management:"
+        echo "    npm install -g openclaw@latest"
+        echo "  Then use this project directory as a workspace skill."
+        echo ""
+    fi
 }
 
 # --- Main ---
