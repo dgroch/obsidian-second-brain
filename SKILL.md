@@ -149,6 +149,25 @@ Capture → 0-Inbox → Clarify → Organize (1-4) → Weekly Review → Archive
 
 When using `obsidian-cli` to move notes, prefer `obsidian-cli move` over `mv` — it updates wikilinks automatically.
 
+## OpenClaw cron (alternative to OS cron)
+
+If the user runs OpenClaw with a gateway, use OpenClaw's built-in cron instead of OS-level cron:
+
+```bash
+openclaw cron add --every 10m --command "Run scripts/sync.sh to sync my vault"
+openclaw cron list
+```
+
+This is preferred when the OpenClaw daemon is already running, as it provides logging, run history, and model-aware scheduling.
+
+## Troubleshooting
+
+Load `references/sync-troubleshooting.md` when the user reports sync issues (auth failures, merge conflicts, stuck locks, vault not found).
+
+## PARA deep dive
+
+Load `references/para-method.md` when the user asks for detailed PARA guidance, decision flowcharts, or weekly review process.
+
 ## Configuration
 
 All settings in `.env` (or `~/.secondbrain/.env`):
