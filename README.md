@@ -156,6 +156,23 @@ Capture → Inbox → Clarify → Organize (PARA) → Review → Archive
 
 This project is an [OpenClaw](https://github.com/openclaw/openclaw) workspace skill. When this directory is in your workspace, OpenClaw automatically loads the `SKILL.md` and can:
 
+### Power Pack (cron + connectors + synthesis)
+
+This repo also includes an **OpenClaw Power Pack** that mirrors the "production" automation used to feed and synthesise Dan's SecondBrain:
+
+- Cron job templates: `openclaw/cron/jobs.template.json`
+- Skills bundle: `openclaw/skills/`
+  - `secondbrain-manager` (capture + synthesis routines)
+  - `obsidian-git-bridge` (Obsidian Sync ↔ Git mirroring)
+  - `trello` (Trello automation)
+- MCP server bundle: `openclaw/mcp-servers/secondbrain-memory`
+
+Install into an OpenClaw workspace:
+
+```bash
+bash openclaw/install-openclaw-power-pack.sh
+```
+
 - **Scaffold a new vault** with PARA folders and templates
 - **Run Git sync** on demand or configure scheduled sync
 - **Organize notes** using the PARA method (move notes between folders)

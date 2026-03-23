@@ -1,0 +1,37 @@
+{
+  "jobs": [
+    {
+      "name": "SecondBrain: Morning Briefing",
+      "enabled": true,
+      "schedule": {"kind": "cron", "expr": "0 7 * * *", "tz": "Australia/Melbourne"},
+      "sessionTarget": "isolated",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "openai/gpt-5-mini",
+        "message": "You are the SecondBrain Manager. Read the skill at /data/.openclaw/workspace/skills/secondbrain-manager/SKILL.md. Execute the Morning Briefing routine. Read BrainIndex.md, MEMORY.md, 00-Tasks/Tasks.md, and today\u2019s daily note. Pull: Google Calendar + Gmail + Trello + Fireflies. Produce a concise briefing and send it to Dan (Telegram). Do not narrate. Do not attempt to repair missing connectors."
+      }
+    },
+    {
+      "name": "SecondBrain: Midday Data Capture",
+      "enabled": true,
+      "schedule": {"kind": "cron", "expr": "0 12 * * *", "tz": "Australia/Melbourne"},
+      "sessionTarget": "isolated",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "openai/gpt-5-mini",
+        "message": "You are the SecondBrain Manager. Read the skill at /data/.openclaw/workspace/skills/secondbrain-manager/SKILL.md. Execute the Data Capture routine. Append structured summaries to 01-Daily/YYYY-MM-DD.md. Use [[wikilinks]]. Trello: only ingest overdue cards from open+editable boards; exclude closed/read-only. Git commit and push in /data/.openclaw/workspace/secondbrain only. Do not touch other repos."
+      }
+    },
+    {
+      "name": "SecondBrain: Evening Synthesis",
+      "enabled": true,
+      "schedule": {"kind": "cron", "expr": "0 21 * * *", "tz": "Australia/Melbourne"},
+      "sessionTarget": "isolated",
+      "payload": {
+        "kind": "agentTurn",
+        "model": "openai/gpt-5-mini",
+        "message": "You are the SecondBrain Manager. Read the skill at /data/.openclaw/workspace/skills/secondbrain-manager/SKILL.md. Execute the Evening Synthesis routine. Process today\u2019s daily log, extract entities/decisions/beliefs/patterns, update indexes and MEMORY.md (keep recent to last 7 days). Commit with message daily synthesis: YYYY-MM-DD and push from /data/.openclaw/workspace/secondbrain."
+      }
+    }
+  ]
+}
